@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/head_navigation">
+    <ImageView
+        android:id="@+id/head_ProfileImage"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginLeft="30dp"
+        android:background="@mipmap/user"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_below="@id/head_ProfileImage"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+        <TextView
+            android:id="@+id/head_Name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:textSize="20sp"
+            android:text="Имя"/>
+        <TextView
+            android:id="@+id/head_Family"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:textSize="20sp"
+            android:text="Фамилие"/>
+        <TextView
+            android:id="@+id/head_Patronymic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:textSize="20sp"
+            android:text="Отчетсво"/>
+        <TextView
+            android:id="@+id/head_e-mail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:textSize="20sp"
+            android:text="E-mail"/>
+    </LinearLayout>
+
+</RelativeLayout>
