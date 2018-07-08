@@ -35,8 +35,15 @@ public class PersonData {
     @Expose
     private String ProfImage;
 
+    @SerializedName("answer")
+    @Expose
+    private String answer;
 
-//    PersonData(@Nullable String ProfImage, String Name, @Nullable String Family, @Nullable String Patronymic, String Login, String Password, String E_mail)
+    public String getAnswer() {
+        return answer;
+    }
+
+    //    PersonData(@Nullable String ProfImage, String Name, @Nullable String Family, @Nullable String Patronymic, String Login, String Password, String E_mail)
 //    {
 //        this.ProfImage = ProfImage;
 //        this.Name = Name;

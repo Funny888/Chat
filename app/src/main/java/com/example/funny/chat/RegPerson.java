@@ -10,10 +10,14 @@ import android.view.View;
 import android.widget.Button;
 
 import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import retrofit2.http.Body;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
 interface RegInterface {
+    @Headers("Content-Type: application/json")
     @POST("/Server/createPerson")
     Observable<PersonData> registration(@Body PersonData data);
 
@@ -58,8 +62,8 @@ public class RegPerson extends AppCompatActivity implements View.OnClickListener
 
             case R.id.sendReg: {
                 PersonData data = regData(TprofImage.getText().toString(), Tname.getText().toString(), Tfamily.getText().toString(), Tpatronymic.getText().toString(), Tlogin.getText().toString(), Tpassword.getText().toString(), Te_mail.getText().toString());
-                regInterface.registration(data).subscribe(personData -> {
-                    Log.i(TAG, "onClick: ");
+                regInterface.registration(data).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.newThread()).subscribe(personData -> {
+                    Log.i(TAG, "onClick: " + personData.getAnswer());
                 }, Throwable::printStackTrace);
                 break;
             }
