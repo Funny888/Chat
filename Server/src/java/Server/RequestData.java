@@ -56,31 +56,42 @@ public class RequestData {
              String pass,
              String e_mail) throws ClassNotFoundException, SQLException
     {
-        Person createdPerson = new Person();
+        Person persona = new Person();
         
         Class.forName("com.mysql.jdbc.Driver");
         
         java.sql.Connection connect = DriverManager.getConnection(DB,loginDB,passwordDB);
+        java.sql.Statement stat;
+         try {
+                     stat = connect.createStatement();
+                     System.out.println(stat.getConnection());
         
-        try {
-            java.sql.Statement stat = connect.createStatement();
-          String insert = "INSERT INTO Users(ProfImage,Name,Family,Patronymic,Login,Password,e_mail) VALUES('" + ProfImage + "','"
+         if(!(Name.equals(null) || Name.equals("")) && !(log.equals(null) || log.equals(""))  && !(pass.equals(null) || pass.equals("")) && !(e_mail.equals(null) || e_mail.equals("")))
+            {
+               
+           
+                     String insert = "INSERT INTO Users(ProfImage,Name,Family,Patronymic,Login,Password,e_mail) VALUES('" + ProfImage + "','"
                                                                                                               + Name + "','"
                                                                                                               + Family + "','"
                                                                                                               + Patronymic + "','"
                                                                                                               + log + "','"
                                                                                                               + pass + "','"
                                                                                                               + e_mail +"')";
-          stat.executeUpdate(insert);
-            System.out.println(insert);
-            
-        } catch (Exception e) {
+                     stat.executeUpdate(insert);
+                     persona.setAnswer("Запись сделана");
+                        
+            }
+         else
+         {
+             persona.setAnswer("Что-то пошло не так");
+         }
+        } catch (Exception e) 
+        {
+           persona.setAnswer("Ошибка: " + e.toString() );
         }
-        
-        
-        
-        
-        return createdPerson; 
+         
+         connect.close();
+       return persona;
     }
     
 }

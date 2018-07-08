@@ -10,6 +10,7 @@ package Server;
  * @author Funny
  */
 public class Person {
+    private String answer;
     private String Name;
     private String Family;
     private String Patronymic;
@@ -18,6 +19,14 @@ public class Person {
     private String Password;
     private String ImageFrofile;
 
+     public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
+    
     public String getLogin() {
         return Login;
     }

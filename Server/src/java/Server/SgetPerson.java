@@ -32,7 +32,7 @@ public class SgetPerson extends HttpServlet{
             Person persona = reqData.request(req.getParameter("Login"), req.getParameter("Password"));
             resp.getWriter().write("{Name:" + persona.getName() + ",\nFamily:" + persona.getFamily() +
                     ",\nPatronymic:" + persona.getPatronymic() + ",\nLogin:" + persona.getLogin() + ",\nPassword:" + persona.getPassword() +
-                    ",\ne-mail:" + persona.getE_mail()+ ",\nProfImage:" + "'" + persona.getImageFrofile() + "'" + "}");
+                    ",\ne_mail:" + persona.getE_mail()+ ",\nProfImage:" + "'" + persona.getImageFrofile() + "'" + "}");
             
            } catch (SQLException ex) {
             Logger.getLogger(SgetPerson.class.getName()).log(Level.SEVERE, null, ex);
@@ -47,14 +47,15 @@ public class SgetPerson extends HttpServlet{
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setCharacterEncoding("UTF-8");
           resp.getWriter().write("<html>"
                 + "<head>"
                 + "<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'> </head>"
                 + "<body>"
                 + "<form name='reg' method='post'>"
-                + "Login \n"
+                + "Логин \n"
                 + "<input type='text' name='Login'/> \n" 
-                + "Password \n"
+                + "Пароль \n"
                 + "<input type='text' name='Password'/>"
                 + "<input type='submit' name='send'/>"
                 + "</form>"
