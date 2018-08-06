@@ -18,7 +18,6 @@ public class retrofitServer {
 
     private static final String URL_server = "http://192.168.0.5:8084";
 
-
     public static ServerApi getValid() {
         Gson gson = new GsonBuilder()
                 .setLenient()
@@ -26,10 +25,9 @@ public class retrofitServer {
                 .create();
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .addInterceptor(new HttpLoggingInterceptor().setLevel(BuildConfig.DEBUG ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE))
                 .socketFactory(SocketFactory.getDefault())
                 .build();
-
-        Log.i("f", "getValid: " + okHttpClient.socketFactory().toString());
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(URL_server)
@@ -61,5 +59,72 @@ public class retrofitServer {
         RegInterface regInterface = retr.create(RegInterface.class);
         return regInterface;
     }
+
+
+
+
+
+
+
+
+
+
+
+    public getMessages retGetMsg()
+    {
+
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+        OkHttpClient client = new OkHttpClient.Builder()
+                .build();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(URL_server)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .client(client)
+                .build();
+
+        getMessages getMessages = retrofit.create(getMessages.class);
+
+        return getMessages;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
