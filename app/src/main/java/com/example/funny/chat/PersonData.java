@@ -33,11 +33,16 @@ public class PersonData {
 
     @SerializedName("ProfImage")
     @Expose
+
     private String ProfImage;
 
     @SerializedName("answer")
     @Expose
     private String answer;
+
+    @SerializedName("_idUser")
+    @Expose
+    private String _idUser;
 
     public String getAnswer() {
         return answer;
@@ -80,6 +85,14 @@ public class PersonData {
 
     public String getProfImage() {
         return ProfImage;
+    }
+
+    public String get_idUser() {
+        return _idUser;
+    }
+
+    public void set_idUser(String _idUser) {
+        this._idUser = _idUser;
     }
 
     public void setLogin(String login) {

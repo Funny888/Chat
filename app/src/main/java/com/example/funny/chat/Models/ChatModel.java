@@ -1,4 +1,4 @@
-package com.example.funny.chat;
+package com.example.funny.chat.Models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

@@ -9,24 +9,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-
-import org.json.JSONObject;
-
-import io.reactivex.Observable;
+import com.example.funny.chat.interfaces.RegInterface;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.http.Body;
-import retrofit2.http.Headers;
-import retrofit2.http.POST;
-
-interface RegInterface {
-    @Headers("Content-Type: application/json")
-    @POST("/Server/createPerson")
-    Observable<PersonData> registration(@Body PersonData data);
-
-}
 
 public class RegPerson extends AppCompatActivity implements View.OnClickListener {
 
@@ -54,7 +39,7 @@ public class RegPerson extends AppCompatActivity implements View.OnClickListener
         BImageSrc.setOnClickListener(this);
         BsendReg = findViewById(R.id.sendReg);
         BsendReg.setOnClickListener(this);
-        regInterface = retrofitServer.createPerson();
+        regInterface = RetrofitServer.createPerson();
     }
 
     @Override

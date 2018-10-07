@@ -8,6 +8,7 @@
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        app:expanded="false"
         android:fitsSystemWindows="true">
 
         <android.support.design.widget.CollapsingToolbarLayout
@@ -63,6 +64,7 @@
         android:orientation="horizontal">
 
         <EditText
+            android:id="@+id/writeText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.1"

@@ -1,8 +1,9 @@
 package com.example.funny.chat;
 
-import android.app.Activity;
-import android.app.Application;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -11,39 +12,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
-import org.reactivestreams.Subscriber;
-import org.reactivestreams.Subscription;
-
-import java.util.ArrayList;
-import java.util.List;
-
+import com.example.funny.chat.interfaces.logReqInterface;
 import io.reactivex.Observable;
-import io.reactivex.Observer;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Action;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
-import io.reactivex.subjects.PublishSubject;
-import retrofit2.Call;
-import retrofit2.CallAdapter;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.http.Body;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.Headers;
-import retrofit2.http.POST;
-import retrofit2.http.Query;
-
-interface ServerApi {
-    @Headers("Accept: application/json")
-    @FormUrlEncoded
-    @POST ("/Server/getPerson")
-    Observable<PersonData> getPerson(@Field("Login")String log,@Field("Password")String pass);
-}
 
 
 public class Logon extends AppCompatActivity implements View.OnClickListener {
@@ -53,15 +29,16 @@ public class Logon extends AppCompatActivity implements View.OnClickListener {
     Button bEnter, bRegister;
     ProgressBar progress;
     Intent intent;
-    ServerApi serverApi;
+    logReqInterface logReqInterface;
     Observable<Boolean> obs;
     Boolean validAccess;
-
+    SharedPreferences date;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.logon_lay);
+
 
         login = findViewById(R.id.eLogin);
         password = findViewById(R.id.ePassword);
@@ -71,8 +48,17 @@ public class Logon extends AppCompatActivity implements View.OnClickListener {
         bRegister = findViewById(R.id.bRegister);
         bRegister.setOnClickListener(this);
         validFunc();
+        logReqInterface = RetrofitServer.getValid();
 
-        serverApi = retrofitServer.getValid();
+        date = getSharedPreferences("logon",MODE_PRIVATE);
+        if (date.contains("login") && date.contains("pass"))
+        {
+            login.setText(date.getString("login",""));
+            password.setText(date.getString("pass",""));
+            bEnter.callOnClick();
+        }
+
+
 
 
 
@@ -110,19 +96,35 @@ public class Logon extends AppCompatActivity implements View.OnClickListener {
 
 
 
-        serverApi.getPerson(login.getText().toString(),password.getText().toString())
+        logReqInterface.getPerson(login.getText().toString(),password.getText().toString())
                 .observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.newThread())
                 .subscribe(personData -> {
             Log.i(TAG, "log: " + personData.getLogin() + " pass:" + personData.getPassword());
                 if (personData.getLogin() != null && personData.getPassword() != null)
                 {
-                    String[] data = {personData.getName(),personData.getFamily(),personData.getPatronymic(),personData.getProfImage()
-                            ,personData.getE_mail()};
+                    String[] data = {
+                            personData.getName(),
+                            personData.getFamily(),
+                            personData.getPatronymic(),
+                            personData.getProfImage(),
+                            personData.getE_mail(),
+                            personData.get_idUser()};
                     progress.setVisibility(ProgressBar.INVISIBLE);
+                    Date();
                     startActivity(intent.putExtra("data",data));
                 }
+                else
+                {
+                    progress.setVisibility(ProgressBar.INVISIBLE);
+                    Toast.makeText(getBaseContext(),"Не верный логин или пароль",Toast.LENGTH_SHORT).show();
+
+                }
             }
-            ,Throwable::printStackTrace);
+            ,throwable -> {
+                    progress.setVisibility(ProgressBar.INVISIBLE);
+                            Toast.makeText(getBaseContext(),"Что-то не так",Toast.LENGTH_SHORT).show();
+                    throwable.printStackTrace();
+                });
 
         return validAccess;
     }
@@ -155,6 +157,43 @@ public class Logon extends AppCompatActivity implements View.OnClickListener {
 
             }
         });
+    }
+
+    private void Date()
+    {
+        date = getSharedPreferences("logon",MODE_PRIVATE);
+        String logDate = login.getText().toString();
+        String pasDate = password.getText().toString();
+        SharedPreferences.Editor edit = date.edit();
+        edit.putString("login",logDate);
+        edit.putString("pass",pasDate);
+        edit.apply();
+    }
+
+    @Override
+    public void onBackPressed() {
+        setExitDialog();
+    }
+
+
+    private void setExitDialog()
+    {
+        new AlertDialog.Builder(this)
+                .setTitle("Выход")
+                .setMessage("Выйти из приложения?")
+                .setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                })
+                .setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .create().show();
     }
 
 }

@@ -1,4 +1,4 @@
-package com.example.funny.chat;
+package com.example.funny.chat.Adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -10,10 +10,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.RequestCreator;
+import com.example.funny.chat.R;
 
 import java.util.ArrayList;
+
+import com.example.funny.chat.Models.ChatModel;
 
 public class RecyclerAdapt extends RecyclerView.Adapter<RecyclerAdapt.Holder> {
 
@@ -25,6 +26,7 @@ public class RecyclerAdapt extends RecyclerView.Adapter<RecyclerAdapt.Holder> {
        this.context = context;
        this.messages = data;
     }
+
 
     @NonNull
     @Override

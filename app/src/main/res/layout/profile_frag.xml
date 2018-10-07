@@ -1,0 +1,74 @@
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:layout_marginTop="@dimen/margin_top"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <android.support.v7.widget.LinearLayoutCompat
+            android:id="@+id/nameLay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/margin_top">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Имя:"
+                android:textSize="20sp"
+                android:layout_weight="0.3"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="name"
+                android:textSize="20sp"
+                android:layout_weight="0.7"/>
+        </android.support.v7.widget.LinearLayoutCompat>
+
+
+        <android.support.v7.widget.LinearLayoutCompat
+            android:id="@+id/familLay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/margin_top">
+
+            <TextView
+                android:id="@+id/profFamil"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Фамилия:"
+                android:textSize="20sp"
+                android:layout_weight="0.14"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Family"
+                android:textSize="20sp"
+                android:layout_weight="0.7"/>
+        </android.support.v7.widget.LinearLayoutCompat>
+
+
+        <android.support.v7.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/margin_top">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Отчество:"
+                android:textSize="20sp"
+                android:layout_weight="0.14"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Patronymic"
+                android:textSize="20sp"
+                android:layout_weight="0.7"/>
+        </android.support.v7.widget.LinearLayoutCompat>
+    </LinearLayout>
