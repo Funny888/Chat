@@ -1,15 +1,15 @@
 package com.example.funny.chat.interfaces;
 
-import com.google.gson.JsonObject;
+import com.example.funny.chat.Models.SearchUserModel;
 
 import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
-public interface getMessages
-{
+public interface iSearchUser {
     @FormUrlEncoded
-    @POST("/Server/accountMsg")
-    Observable<JsonObject> getMsg(@Field("_idUser") Integer _userId);
+    @POST ("/Server/searchUser")
+    Observable<SearchUserModel> search(@Field("e_mail") String e_mail);
+
 }

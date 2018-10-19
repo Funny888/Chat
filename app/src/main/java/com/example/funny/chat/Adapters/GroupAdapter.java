@@ -1,9 +1,12 @@
 package com.example.funny.chat.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.funny.chat.Messages;
 import com.example.funny.chat.Models.GroupModel;
 import com.example.funny.chat.R;
 
@@ -19,22 +23,11 @@ import java.util.ArrayList;
 
 public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.MyHolder> {
 
-    public interface MyItemListener
-    {
-        void itemListener(int i);
-    }
-
-   private MyItemListener listener;
 
     public static final String TAG = "GroupAdapter";
 
     Context context;
     ArrayList<GroupModel> models;
-
-  public void List(MyItemListener listenr)
-  {
-      this.listener = listenr;
-  }
 
     public GroupAdapter(Context ctxt, ArrayList<GroupModel> models) {
 
@@ -77,7 +70,12 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.MyHolder> {
             public void onClick(View v) {
                 Snackbar.make(v, "Вы нажали на диалог " + String.valueOf(position), Snackbar.LENGTH_LONG)
                         .show();
-                listener.itemListener(position);
+                Intent intent = new Intent(context,Messages.class).putExtra("groupData",
+                        new String[] {models.get(position).get_idGrp().toString(),
+                        models.get(position).getChatName(),
+                        models.get(position).getFromUser().toString(),
+                        models.get(position).getToUser().toString()});
+                ActivityCompat.startActivity(context,intent,null);
 
             }
         });

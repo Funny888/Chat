@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/relative"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="250dp"
+    android:layout_height="300dp"
+    style="@style/fonChat">
+    <ImageView
+        android:id="@+id/ProfImageDialog"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@mipmap/user"
+        />
+    <TextView
+        android:id="@+id/NameDialog"
+        android:layout_marginTop="14dp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Имя"
+        android:layout_below="@id/ProfImageDialog"
+
+
+        />
+    <TextView
+        android:id="@+id/FamilyDialog"
+        android:layout_marginTop="14dp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Фамилия"
+        android:layout_below="@id/NameDialog"
+        />
+    <TextView
+        android:id="@+id/Patronymicdialog"
+        android:layout_marginTop="14dp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Отчество"
+        android:layout_below="@id/FamilyDialog"
+        />
+    <TextView
+        android:id="@+id/e_maildialog"
+        android:layout_marginTop="14dp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Почта"
+        android:layout_below="@id/Patronymicdialog"
+        />
+
+
+    <Button
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/addButt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Добавить чат"
+        style="@style/AppTheme.Button"/>
+    <include layout="@layout/progress_lay"/>
+
+</RelativeLayout>

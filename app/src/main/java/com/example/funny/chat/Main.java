@@ -13,12 +13,15 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.funny.chat.Adapters.GroupAdapter;
 
 public class Main extends AppCompatActivity {
     DrawerLayout draw;
@@ -91,8 +94,6 @@ public class Main extends AppCompatActivity {
         editor.putString("UserId", data[5]);
         editor.apply();
         Log.i(TAG, "userID: " + data[5]);
-
-
         navigView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -122,4 +123,9 @@ public class Main extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
 }

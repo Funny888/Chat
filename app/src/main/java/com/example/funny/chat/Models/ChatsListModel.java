@@ -3,6 +3,8 @@ package com.example.funny.chat.Models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import io.reactivex.annotations.Nullable;
+
 public class ChatsListModel {
 
 
@@ -18,6 +20,14 @@ public class ChatsListModel {
     @SerializedName("_idGrp")
     @Expose
     private Integer _idGrp;
+
+    public Integer get_idMsg() {
+        return _idMsg;
+    }
+
+    @SerializedName("_idMsg")
+    @Expose
+    private Integer _idMsg;
 
     @SerializedName("DateMsg")
     @Expose
@@ -35,8 +45,12 @@ public class ChatsListModel {
     @Expose
     private String ProfImage;
 
+    @SerializedName("Answer")
+    @Expose
+    private String answer;
 
-    public ChatsListModel(String ChatName,String ProfImage, Integer _idGrp,Integer FromUser, Integer ToUser,String DateMsg, String TextMsg)
+
+    public ChatsListModel(String ChatName, @Nullable String ProfImage,@Nullable Integer _idMsg ,Integer _idGrp, Integer FromUser, Integer ToUser, String DateMsg, String TextMsg)
     {
         this.ChatName = ChatName;
         this.ProfImage = ProfImage;
@@ -46,6 +60,7 @@ public class ChatsListModel {
         this.DateMsg = DateMsg;
         this.TextMsg = TextMsg;
     }
+
 
     public String getChatName() {
         return ChatName;
@@ -98,4 +113,9 @@ public class ChatsListModel {
     public String getProfImage() {
         return ProfImage;
     }
+
+    public String getAnswer() {
+        return answer;
+    }
 }
+
