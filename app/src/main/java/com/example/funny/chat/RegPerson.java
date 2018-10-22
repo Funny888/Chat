@@ -53,12 +53,10 @@ public class RegPerson extends AppCompatActivity implements View.OnClickListener
             case R.id.sendReg: {
                 PersonData data = regData(TprofImage.getText().toString(), Tname.getText().toString(), Tfamily.getText().toString(), Tpatronymic.getText().toString(), Tlogin.getText().toString(), Tpassword.getText().toString(), Te_mail.getText().toString());
 
-//                PersonData data = new PersonData();
-
 
                 regInterface.registration(data).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.newThread()).subscribe(personData -> {
                     Log.i(TAG, "onClick: " + personData.getAnswer());
-
+                    finish();
                 }, Throwable::printStackTrace);
                 break;
             }

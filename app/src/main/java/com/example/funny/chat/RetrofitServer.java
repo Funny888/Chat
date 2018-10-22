@@ -26,7 +26,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitServer {
 
-    private static final String URL_server = "http://192.168.0.4:8084";
+    private static final String URL_server = "http://192.168.0.4:8080";
 
     public static logReqInterface getValid() {
         Gson gson = new GsonBuilder()
