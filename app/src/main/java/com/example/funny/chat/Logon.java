@@ -15,14 +15,13 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.funny.chat.Database.DataFun;
+import com.example.funny.chat.Database.DataSave;
 import com.example.funny.chat.interfaces.logReqInterface;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
-
-import static android.content.Context.MODE_PRIVATE;
 
 
 public class Logon extends AppCompatActivity implements View.OnClickListener {
@@ -113,15 +112,17 @@ public class Logon extends AppCompatActivity implements View.OnClickListener {
                             personData.getE_mail(),
                             personData.get_idUser()};
                     progress.setVisibility(ProgressBar.INVISIBLE);
-
+//                    DataSave dataSave = new DataSave(this);
+//                    dataSave.onUpgrade(dataSave.getWritableDatabase(),1,3);
                     DataFun dataFun = new DataFun(Logon.this);
-                    String ans = dataFun.InsertDB(
+                    String ans = dataFun.InsertTableUser(
                             personData.getProfImage(),
                             personData.getName(),
                             personData.getFamily(),
                             personData.getPatronymic(),
                             personData.getE_mail(),"Записано");
                     Log.i(TAG, "Test DB: " + ans);
+                    dataFun.ShowTableU(DataSave.TABLE_Udata);
 
                     Date();
                     startActivity(intent.putExtra("data",data));

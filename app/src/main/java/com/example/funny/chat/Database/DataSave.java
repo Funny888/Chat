@@ -30,7 +30,7 @@ public class DataSave extends SQLiteOpenHelper {
     public static final String TO_USER = "ToUser";
     public static final String DATE_MSG = "DateMsg";
     public static final String TEXT_MSG = "TextMsg";
-    public static final String ANSWER = "ANSWER";
+    public static final String ANSWER = "Answer";
 
 
 
@@ -42,19 +42,27 @@ public class DataSave extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_Udata + " ( " + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT , " + PROFIMAGE + " TEXT,"
-                +  NAME + " CHAR NOT NULL, " + FAMILY + " CHAR, " + PATRONYMIC + "CHAR,"
+        sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_Udata + " ( " + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT , " + PROFIMAGE + " TEXT,"
+                +  NAME + " CHAR NOT NULL, " + FAMILY + " CHAR, " + PATRONYMIC + " CHAR,"
                 + E_MAIL + " TEXT NOT NULL, " + ANSWER + "  TEXT NOT NULL);");
 
-        sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_Gdata + " (" + _ID_GRP + " INTEGER PRIMARY KEY AUTOINCREMENT," + PROFIMAGE +  " TEXT," + TEXT_MSG + " TEXT," +
-                CHAT_NAME + " TEXT, " + DATE_MSG + " DATETIME, " + FROM_USER + " int(5), " + TO_USER + " int(5) );");
+        sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_Gdata + " (" + _ID_GRP + " INTEGER ," + PROFIMAGE +  " TEXT," + TEXT_MSG + " TEXT," +
+                CHAT_NAME + " TEXT, " + DATE_MSG + " DATETIME, " + FROM_USER + " int(5), " + TO_USER + " int(5), " + ANSWER + " TEXT );");
 
-        sqLiteDatabase.execSQL("CREATE  TABLE " + TABLE_Mdata + " (" + _ID_MSG + " INTEGER PRIMARY KEY AUTOINCREMENT, " + _ID_GRP + " int(5), " + PROFIMAGE + " TEXT," +
-                DATE_MSG + " DATETIME," + FROM_USER + " int(5), " + TO_USER + " int(5)  );");
+        sqLiteDatabase.execSQL("CREATE  TABLE  IF NOT EXISTS " + TABLE_Mdata + " (" + _ID_MSG + " INTEGER, " + _ID_GRP + " int(5), " + PROFIMAGE + " TEXT," +
+                DATE_MSG + " DATETIME," + TEXT_MSG + " TEXT, " + FROM_USER + " int(5), " + TO_USER + " int(5), " + ANSWER + " TEXT );");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-
+            if (i<i1)
+            {
+                sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_Udata + " ;");
+                sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_Gdata + " ;");
+                sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_Mdata + " ;");
+                this.onCreate(sqLiteDatabase);
+            }
     }
+
+
 }

@@ -25,11 +25,14 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.funny.chat.Adapters.GroupAdapter;
+import com.example.funny.chat.Database.DataFun;
+import com.example.funny.chat.Database.DataSave;
 import com.example.funny.chat.Models.GroupModel;
 import com.example.funny.chat.interfaces.iGroups;
 import com.example.funny.chat.interfaces.iSearchUser;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -39,7 +42,8 @@ import io.reactivex.schedulers.Schedulers;
 public class Groups extends Fragment {
     public static final String TAG = "iGroups";
 
-    ArrayList<GroupModel> models = new ArrayList<>();
+    ArrayList<GroupModel> modelsDB = new ArrayList<>();
+    ArrayList<GroupModel> modelsReq = new ArrayList<>();
     iGroups groups;
     GroupAdapter adapter;
     RecyclerView GroupsList;
@@ -50,7 +54,6 @@ public class Groups extends Fragment {
 
     @Nullable
     @Override
-
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.group, container, false);
@@ -72,8 +75,29 @@ public class Groups extends Fragment {
         SharedPreferences shr = view.getContext().getSharedPreferences("User", Context.MODE_PRIVATE);
         _idUser = shr.getString("UserId", "");
 
+        DataFun dataFun = new DataFun(view.getContext());
 
-            models.clear();
+         Iterator<String []> it = dataFun.ShowTableU(DataSave.TABLE_Gdata).iterator();
+
+        modelsDB.clear();
+         while (it.hasNext())
+         {
+
+             String[] line = it.next();
+                 modelsDB.add(new GroupModel(
+                         line[0],
+                         line[1],
+                         Integer.parseInt(line[2]),
+                         Integer.parseInt(line[3]),
+                         Integer.parseInt(line[4]),
+                         line[5],
+                         line[6]
+                         ));
+
+         }
+
+
+
             groups.getGroup(Integer.parseInt(_idUser)).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).flatMap(new Function<ArrayList<GroupModel>, Observable<GroupModel>>() {
                 @Override
                 public Observable<GroupModel> apply(ArrayList<GroupModel> groupModels) throws Exception {
@@ -82,7 +106,7 @@ public class Groups extends Fragment {
             }).subscribe(groupModel -> {
 
 
-                models.add(new GroupModel(
+                modelsReq.add(new GroupModel(
                         groupModel.getChatName(),
                         groupModel.getProfImage(),
                         groupModel.get_idGrp(),
@@ -93,11 +117,27 @@ public class Groups extends Fragment {
                 ));
 
 
-                adapter = new GroupAdapter(view.getContext(), models);
+
+                    if (!VerefChat(groupModel.get_idGrp())) {
+                dataFun.InsertTableGroup(
+                        groupModel.getChatName(),
+                        groupModel.getProfImage(),
+                        groupModel.get_idGrp(),
+                        String.valueOf(groupModel.getFromUser()),
+                        String.valueOf(groupModel.getToUser()),
+                        groupModel.getDateMsg(),
+                        groupModel.getTextMsg(),
+                        "Записано"
+                );
+                    }
+
+                dataFun.VerefUpdate(groupModel.get_idGrp(),groupModel.getProfImage(),groupModel.getTextMsg(),groupModel.getDateMsg());
+
+                adapter = new GroupAdapter(view.getContext(), modelsDB);
 
                 GroupsList.setAdapter(adapter);
 
-                Log.i(TAG, "onCreateView: " + groupModel.get_idGrp());
+                dataFun.ShowTableU(DataSave.TABLE_Gdata);
 
             });
             appbar.setDisplayHomeAsUpEnabled(true);
@@ -117,9 +157,18 @@ public class Groups extends Fragment {
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getAdapterPosition();
+                modelsDB.remove(position);
+                DataFun df = new DataFun(view.getContext());
+                df.DeleteTableG(modelsDB.get(position).get_idGrp());
+                adapter.notifyItemRemoved(position);
+                adapter.notifyDataSetChanged();
 
             }
         };
+
+            ItemTouchHelper touch = new ItemTouchHelper(cal);
+            touch.attachToRecyclerView(GroupsList);
 
         return view;
     }
@@ -166,6 +215,7 @@ public class Groups extends Fragment {
             dialog.setTitle("Поиск пользователя");
             ((TextView) dialog.findViewById(R.id.NameDialog)).setText(list.get(2));
             Glide.with(dialog.findViewById(R.id.ProfImageDialog)).load(list.get(1));
+            Log.i(TAG, "searchUsermethod: " + list.get(1));
             ((TextView) dialog.findViewById(R.id.Patronymicdialog)).setText(list.get(4));
             ((TextView) dialog.findViewById(R.id.e_maildialog)).setText(list.get(5));
             dialog.findViewById(R.id.addButt).setOnClickListener(new View.OnClickListener() {
@@ -178,11 +228,7 @@ public class Groups extends Fragment {
                     .subscribe(answerGroupModel ->
                     {
                         Log.i(TAG, "onClick: " + answerGroupModel.getAnswer());
-                        try {
-                            Groups.this.finalize();
-                        } catch (Throwable throwable) {
-                            throwable.printStackTrace();
-                        }
+                        dialog.dismiss();
                     });
                 }
             });
@@ -202,5 +248,19 @@ public class Groups extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.search_menu,menu);
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+
+    private boolean VerefChat(Integer idGrp)
+    {
+        boolean veref = false;
+     Iterator<GroupModel> it = modelsDB.iterator();
+        while (it.hasNext())
+        {
+            if (it.next().get_idGrp().equals(idGrp))
+                veref = true;
+        }
+
+        return veref;
     }
 }

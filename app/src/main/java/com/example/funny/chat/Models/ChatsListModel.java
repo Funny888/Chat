@@ -9,9 +9,6 @@ public class ChatsListModel {
 
 
 
-    @SerializedName("ChatName")
-    @Expose
-    private String ChatName;
 
     @SerializedName("TextMsg")
     @Expose
@@ -50,10 +47,10 @@ public class ChatsListModel {
     private String answer;
 
 
-    public ChatsListModel(String ChatName, @Nullable String ProfImage,@Nullable Integer _idMsg ,Integer _idGrp, Integer FromUser, Integer ToUser, String DateMsg, String TextMsg)
+    public ChatsListModel(@Nullable String ProfImage,@Nullable Integer _idMsg ,Integer _idGrp, Integer FromUser, Integer ToUser, String DateMsg, String TextMsg)
     {
-        this.ChatName = ChatName;
         this.ProfImage = ProfImage;
+        this._idMsg = _idMsg;
         this._idGrp = _idGrp;
         this.FromUser = FromUser;
         this.ToUser = ToUser;
@@ -61,14 +58,6 @@ public class ChatsListModel {
         this.TextMsg = TextMsg;
     }
 
-
-    public String getChatName() {
-        return ChatName;
-    }
-
-    public void setChatName(String chatName) {
-        ChatName = chatName;
-    }
 
     public String getTextMsg() {
         return TextMsg;

@@ -9,10 +9,10 @@ import retrofit2.http.POST;
 
 public interface iDeleteFun {
     @FormUrlEncoded
-    @POST
+    @POST()
     Observable<AnswerGroupModel> deleteGroup(@Field("_idGrp") Integer _idGrp);
 
     @FormUrlEncoded
-    @POST
+    @POST("/Server/deleteMessage")
     Observable<AnswerGroupModel> deleteMsg(@Field("_idMsg") Integer _idMsg);
 }
